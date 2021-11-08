@@ -3,7 +3,7 @@ const { BadRequest } = require('http-errors')
 const Joi = require('joi')
 
 const joiSchema = Joi.object({
-  nickname: Joi.string().required(),
+  nickname: Joi.string(),
   real_name: Joi.string(),
   origin_description: Joi.string(),
   superpowers: Joi.string(),
