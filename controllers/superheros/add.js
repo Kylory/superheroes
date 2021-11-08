@@ -11,7 +11,7 @@ const Joi = require('joi')
 // })
 
 const add = async (req, res) => {
-  const { error } = joiSchema.validate(req.body)
+//   const { error } = joiSchema.validate(req.body)
 
 //   if (error) {
 //     throw new BadRequest('missing required field')
