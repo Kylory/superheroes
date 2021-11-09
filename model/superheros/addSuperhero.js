@@ -6,6 +6,7 @@ const addSuperhero = async ({
   origin_description,
   superpowers,
   catch_phrase,
+  images,
 }) => {
   return await Superhero.create({
     nickname,
@@ -13,6 +14,7 @@ const addSuperhero = async ({
     origin_description,
     superpowers,
     catch_phrase,
+    images,
   })
 }
 

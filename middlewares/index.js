@@ -1,7 +1,7 @@
 const controllerWrapper = require('./controllerWrapper')
-// const updateAvatarMiddleware = require('./updateAvatarMiddleware')
+const uploadImagesMiddleware = require('./uploadImagesMiddleware')
 
 module.exports = {
   controllerWrapper,
-  // updateAvatarMiddleware,
+  uploadImagesMiddleware,
 }
