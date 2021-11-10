@@ -19,8 +19,7 @@ router.get('/', controllerWrapper(getAll))
 
 router.get('/:superheroId', controllerWrapper(getById))
 
-// router.post('/', uploadImagesMiddleware.single('files'), controllerWrapper(add))
-router.post('/', uploadImagesMiddleware.array('files'), controllerWrapper(add))
+router.post('/', uploadImagesMiddleware.array('images'), controllerWrapper(add))
 
 router.put('/:superheroId', controllerWrapper(updateById))
 

@@ -2,6 +2,10 @@ const { addSuperhero } = require('../../model/superheros')
 const { BadRequest } = require('http-errors')
 const Joi = require('joi')
 const path = require('path')
+const fs = require('fs-extra')
+require('dotenv').config()
+
+const cloudinary = require('cloudinary').v2
 
 // const joiSchema = Joi.object({
 //   nickname: Joi.string(),
@@ -12,46 +16,58 @@ const path = require('path')
 // })
 
 const add = async (req, res) => {
-  // console.log(req)
-  // console.log(req.body)
   // const { error } = joiSchema.validate(req.body)
   // if (error) {
-  //   // console.log(req.body)
   //   throw new BadRequest('missing required field')
-  //   // res.status(400).json(req.body)
   // }
 
   // const newSuperhero = await addSuperhero(req.body)
-  // console.log('files on back', req)
-  console.log('files on back', req.files)
-  console.log('data on back', req.body.data)
 
-  // const files = req.body.data.get('file')
-  // console.log(files)
+  // console.log('files on back', req.files)
+  // console.log('data on back', req.body)
+
   // Додаємо до назви ID юзера для унікальності назви аватару
-  if (req.file) {
-    // console.log(req.file)
-    // const { path: tempDir, originalname } = req.file
-    // const { _id } = req.user
-    // const [extension] = originalname.split(' ').reverse()
-    // const filename = `${_id}-${extension}`
-    // // Переміщаємо аватар в public/avatars
-    // const uploadDir = path.join(__dirname, '../../', 'public/avatars', filename)
-    // try {
-    //   await fs.rename(tempDir, uploadDir)
-    //   req.images = [uploadDir]
-    // } catch (error) {
-    //   // Якщо щось пішло не так, то видаляємо завантажений аватар з тимчасової папки
-    //   await fs.unlink(tempDir)
-    //   next(error)
-    // }
+  if (req.files.length !== 0) {
+    const cloudinaryUpload = async (image) => {
+      const result = await cloudinary.uploader.upload(`./temp/${image}`, {
+        resource_type: 'image',
+      })
+      // .then((result) => {
+      //   console.log('success', JSON.stringify(result.secure_url, null, 2))
+      // })
+      // .catch((result) => {
+      //   console.log('error', JSON.stringify(error, null, 2))
+      // })
+      // console.log(result.secure_url)
+      return result.secure_url
+    }
+
+    try {
+      const upload = async (array) => {
+        const promises = array.map((element) =>
+          cloudinaryUpload(element.originalname)
+        )
+        return await Promise.all(promises)
+      }
+
+      req.body.images = await upload(req.files)
+
+      // await fs.unlink(tempDir)
+      // fs.emptyDir('../../temp', (err) => {
+      //   if (err) return err
+      //   console.log('success!')
+      // })
+      // next(error)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  // const newSuperhero = await addSuperhero(req.body)
+  const newSuperhero = await addSuperhero(req.body)
 
-  // res
-  //   .status(201)
-  //   .json({ message: 'Added new superhero', newSuperhero: newSuperhero })
+  res
+    .status(201)
+    .json({ message: 'Added new superhero', newSuperhero: newSuperhero })
 }
 
 module.exports = {
