@@ -9,9 +9,9 @@ const uploadConfig = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(null, file.originalname)
   },
-  // limits: {
-  //   fileSize: 4096,
-  // },
+  limits: {
+    fileSize: 4096,
+  },
 })
 
 const uploadImagesMiddleware = multer({

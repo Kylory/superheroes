@@ -4,7 +4,7 @@ const mongoosePaginate = require('mongoose-paginate-v2')
 const superheroSchema = new Schema({
   nickname: {
     type: String,
-    // required: [true, 'Set name for superhero'],
+    required: [true, 'Set name for superhero'],
   },
 
   real_name: {

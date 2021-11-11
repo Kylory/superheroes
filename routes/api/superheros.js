@@ -10,10 +10,7 @@ const {
   add,
   updateById,
   removeById,
-  //   updateStatusById,
 } = require('../../controllers/superheros')
-
-// router.use(authMiddleware)
 
 router.get('/', controllerWrapper(getAll))
 
